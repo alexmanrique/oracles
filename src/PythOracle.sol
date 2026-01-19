@@ -29,7 +29,7 @@ contract PythOracle {
      * Submits a price update (must provide valid updateData from off-chain)
      */
     function updatePrice(bytes[] calldata updateData) external payable {
-        uint fee = pyth.getUpdateFee(updateData);
+        uint256 fee = pyth.getUpdateFee(updateData);
         require(msg.value >= fee, "Insufficient fee sent");
         pyth.updatePriceFeeds{value: fee}(updateData);
     }

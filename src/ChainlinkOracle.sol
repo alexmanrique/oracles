@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {AggregatorV3Interface} from "../lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import {
+    AggregatorV3Interface
+} from "../lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 contract ChainlinkOracle {
     AggregatorV3Interface internal priceFeed;
@@ -20,26 +22,18 @@ contract ChainlinkOracle {
      * Returns the latest price
      */
     function getLatestPrice() public view returns (int256) {
-        (
-            , 
-            int256 price,
-            ,
-            ,
-            
-        ) = priceFeed.latestRoundData(); // @audit Do NOT use .latestAnswer()
+        (, int256 price,,,) = priceFeed.latestRoundData(); // @audit Do NOT use .latestAnswer()
         return price;
     }
 
     /**
      * Returns additional data: round ID, timestamp, etc.
      */
-    function getRoundData() public view returns (
-        uint80 roundId,
-        int256 price,
-        uint256 startedAt,
-        uint256 updatedAt,
-        uint80 answeredInRound
-    ) {
+    function getRoundData()
+        public
+        view
+        returns (uint80 roundId, int256 price, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)
+    {
         return priceFeed.latestRoundData();
     }
 }

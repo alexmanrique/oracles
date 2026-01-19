@@ -34,7 +34,7 @@ contract PythOracle {
      * Submits a price update (must provide valid updateData from off-chain)
      */
     function updatePrice(bytes[] calldata updateData) public payable {
-        uint fee = pyth.getUpdateFee(updateData);
+        uint256 fee = pyth.getUpdateFee(updateData);
         require(msg.value >= fee, "Insufficient fee sent");
         pyth.updatePriceFeeds{value: fee}(updateData);
     }
@@ -46,8 +46,7 @@ contract PythOracle {
         require(expo >= MIN_ACCEPTABLE_EXPO, "Oracle: invalid expo"); // @audit Expo must be within acceptable range (not lower than -18)
         // 3. Confidence interval too wide or 0 (halted feed)
         require(
-            confidence > 0 &&
-            uint256(uint64(_abs(price))) * 1e4 / uint256(uint64(confidence)) > MIN_CONFIDENCE_RATIO,
+            confidence > 0 && uint256(uint64(_abs(price))) * 1e4 / uint256(uint64(confidence)) > MIN_CONFIDENCE_RATIO,
             "Oracle: untrusted price"
         );
     }

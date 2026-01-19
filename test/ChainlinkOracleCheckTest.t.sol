@@ -12,26 +12,18 @@ contract ChainlinkOracleCheckTest is Test {
     uint256 staleFeedThreshold = 1 hours;
 
     function setUp() public {
-          chainlinkOracleChecks = new SecureChainlinkOracle(
-            primaryPriceFeed,
-            secondaryPriceFeed,
-            staleFeedThreshold
-        );
+        chainlinkOracleChecks = new SecureChainlinkOracle(primaryPriceFeed, secondaryPriceFeed, staleFeedThreshold);
     }
 
-     function testGetLatestPrice() public view {
+    function testGetLatestPrice() public view {
         (int256 latestPrice, uint8 decimals) = chainlinkOracleChecks.getLatestPrice();
         assertTrue(latestPrice > 0, "Invalid price");
         assertTrue(decimals > 0, "Invalid decimals");
     }
 
-
     function testGetLatestPriceInvalidPrimary() public {
-        SecureChainlinkOracle chainlinkOracleChecksInvalidPrimary = new SecureChainlinkOracle(
-                vm.addr(1),
-                secondaryPriceFeed,
-                staleFeedThreshold
-            );
+        SecureChainlinkOracle chainlinkOracleChecksInvalidPrimary =
+            new SecureChainlinkOracle(vm.addr(1), secondaryPriceFeed, staleFeedThreshold);
 
         (int256 latestPrice, uint8 decimals) = chainlinkOracleChecksInvalidPrimary.getLatestPrice();
         assertTrue(latestPrice >= 0, "Invalid price");
@@ -39,21 +31,15 @@ contract ChainlinkOracleCheckTest is Test {
     }
 
     function testGetLatestPriceStale() public {
-        SecureChainlinkOracle chainlinkOracleChecksStale = new SecureChainlinkOracle(
-                primaryPriceFeed,
-                secondaryPriceFeed,
-                1
-            );
+        SecureChainlinkOracle chainlinkOracleChecksStale =
+            new SecureChainlinkOracle(primaryPriceFeed, secondaryPriceFeed, 1);
         vm.expectRevert();
         chainlinkOracleChecksStale.getLatestPrice();
     }
 
     function testBothFeedsFailed() public {
-        SecureChainlinkOracle chainlinkOracleChecksBothInvalid = new SecureChainlinkOracle(
-                vm.addr(1),
-                vm.addr(2),
-                staleFeedThreshold
-            );
+        SecureChainlinkOracle chainlinkOracleChecksBothInvalid =
+            new SecureChainlinkOracle(vm.addr(1), vm.addr(2), staleFeedThreshold);
         vm.expectRevert("Both price feeds failed");
         chainlinkOracleChecksBothInvalid.getLatestPrice();
     }
