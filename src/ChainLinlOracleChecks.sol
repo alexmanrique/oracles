@@ -6,13 +6,9 @@ import {AggregatorV3Interface} from "../lib/chainlink-brownie-contracts/contract
 contract SecureChainlinkOracle {
     AggregatorV3Interface public immutable PRIMARY_PRICE_FEED;
     AggregatorV3Interface public immutable SECONDARY_PRICE_FEED;
-    uint256 public immutable STALE_FEED_THRESHOLD; // in seconds
+    uint256 public immutable STALE_FEED_THRESHOLD; 
 
-    constructor(
-        address _primaryFeed,
-        address _secondaryFeed,
-        uint256 _staleThreshold
-    ) {
+    constructor(address _primaryFeed, address _secondaryFeed, uint256 _staleThreshold) {
         require(_primaryFeed != address(0), "Primary feed address required");
         require(_secondaryFeed != address(0), "Secondary feed address required");
         require(_staleThreshold > 0, "Stale threshold must be positive");
@@ -24,14 +20,7 @@ contract SecureChainlinkOracle {
 
     function getLatestPrice() external view returns (int256 price, uint8 decimals) {
         try PRIMARY_PRICE_FEED.latestRoundData() {
-            (
-                ,
-                int256 answer,
-                ,
-                uint256 updatedAt
-                ,
-            ) = PRIMARY_PRICE_FEED.latestRoundData();
-
+            (,int256 answer,,uint256 updatedAt,) = PRIMARY_PRICE_FEED.latestRoundData();
             require(answer > 0, "Primary feed: price <= 0");
             require(updatedAt > 0, "Primary feed: invalid timestamp");
             require(block.timestamp - updatedAt <= STALE_FEED_THRESHOLD, "Primary feed: stale");
@@ -40,13 +29,7 @@ contract SecureChainlinkOracle {
             decimals = PRIMARY_PRICE_FEED.decimals();
         } catch {
             try SECONDARY_PRICE_FEED.latestRoundData() {
-                (
-                    ,
-                    int256 answer,
-                    ,
-                    uint256 updatedAt,
-                    
-                ) = SECONDARY_PRICE_FEED.latestRoundData();
+                (,int256 answer,,uint256 updatedAt,) = SECONDARY_PRICE_FEED.latestRoundData();
 
                 require(answer > 0, "Secondary feed: price <= 0");
                 require(updatedAt > 0, "Secondary feed: invalid timestamp");
