@@ -1,66 +1,43 @@
-## Foundry
+## Chainlink and Pyth Oracles (Foundry)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Example project with contracts that consume Chainlink and Pyth oracles, including basic versions and versions with safety validations.
 
-Foundry consists of:
+## Contracts
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- `src/ChainlinkOracle.sol`: simple wrapper over a single Chainlink feed. Exposes `getLatestPrice()` and `getRoundData()`.
+- `src/ChainLinlOracleChecks.sol`: `SecureChainlinkOracle` with validations. Uses primary and secondary feeds, checks positive price, valid timestamp, and configurable staleness threshold.
+- `src/PythOracle.sol`: basic Pyth integration. Allows price updates with `updatePrice()` and reads via `getPriceUnsafe()`.
+- `src/PythOracleChecks.sol`: hardened version that updates prices and uses `getPriceNoOlderThan()` with an age limit, plus price, expo, and confidence ratio checks.
 
-## Documentation
+## Tests
 
-https://book.getfoundry.sh/
+- `test/ChainlinkOracleCheckTest.t.sol`: tests for `SecureChainlinkOracle` with fallback and staleness scenarios.
+
+## Structure
+
+```
+src/
+  ChainlinkOracle.sol
+  ChainLinlOracleChecks.sol
+  PythOracle.sol
+  PythOracleChecks.sol
+test/
+  ChainlinkOracleCheckTest.t.sol
+```
 
 ## Usage
 
-### Build
-
 ```shell
-$ forge build
+forge build
+forge test
+forge fmt
 ```
 
-### Test
+## Deployment notes
 
-```shell
-$ forge test
-```
+- Chainlink: requires feed addresses per network (e.g., ETH/USD on Sepolia or Mainnet).
+- Pyth: requires the Pyth contract on the network and the feed `priceId`; updates require off-chain `updateData` and enough `msg.value` to cover the fee.
 
-### Format
+## Documentation
 
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Foundry: https://book.getfoundry.sh/
