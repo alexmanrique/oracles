@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import {IPyth} from "../lib/pyth-sdk-solidity/IPyth.sol";
 import {PythStructs} from "../lib/pyth-sdk-solidity/PythStructs.sol";
 
-contract PythOracle {
+contract PythOracleChecks {
     IPyth public pyth;
     bytes32 public priceId;
     uint256 public constant MAX_AGE_SECONDS = 3600; // 1 hour
