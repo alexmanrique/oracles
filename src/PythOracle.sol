@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {IPyth} from "../node_modules/@pythnetwork/pyth-sdk-solidity/IPyth.sol";
-import {PythStructs} from "../node_modules/@pythnetwork/pyth-sdk-solidity/PythStructs.sol";
+import {IPyth} from "@pythnetwork/pyth-sdk-solidity/IPyth.sol";
+import {PythStructs} from "@pythnetwork/pyth-sdk-solidity/PythStructs.sol";
 
 contract PythOracle {
     IPyth public pyth;
