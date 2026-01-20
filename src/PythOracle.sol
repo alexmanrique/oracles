@@ -36,3 +36,4 @@ contract PythOracle {
 
     receive() external payable {}
 }
+

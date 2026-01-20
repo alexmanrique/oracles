@@ -58,3 +58,4 @@ contract PythOracleChecks {
 
     receive() external payable {}
 }
+
