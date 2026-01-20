@@ -3,7 +3,7 @@ pragma solidity ^0.8.30;
 
 import {
     AggregatorV3Interface
-} from "../lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+} from "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 contract ChainlinkOracle {
     AggregatorV3Interface internal priceFeed;
