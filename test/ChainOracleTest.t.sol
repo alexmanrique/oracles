@@ -20,7 +20,8 @@ contract ChainOracleTest is Test {
     }
 
     function testGetRoundData() public view {
-        (uint80 roundId, int256 price, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound) = chainlinkOracle.getRoundData();
+        (uint80 roundId, int256 price, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound) =
+            chainlinkOracle.getRoundData();
         assertTrue(roundId > 0, "Invalid round id");
         assertTrue(price > 0, "Invalid price");
         assertTrue(startedAt > 0, "Invalid started at");

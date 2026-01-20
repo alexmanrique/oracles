@@ -18,39 +18,23 @@ contract PythOracleChecksTest is Test {
     }
 
     function testGetLatestPrice() public {
-        PythStructs.Price memory priceData = PythStructs.Price({
-            price: 2_000_00000000,
-            conf: 1,
-            expo: -8,
-            publishTime: block.timestamp
-        });
+        PythStructs.Price memory priceData =
+            PythStructs.Price({price: 2_000_00000000, conf: 1, expo: -8, publishTime: block.timestamp});
         vm.mockCall(
-            pythContract,
-            abi.encodeWithSelector(IPyth.getPriceUnsafe.selector, priceIdEthUsd),
-            abi.encode(priceData)
+            pythContract, abi.encodeWithSelector(IPyth.getPriceUnsafe.selector, priceIdEthUsd), abi.encode(priceData)
         );
         (int64 price, uint64 conf, int32 expo) = pythOracle.getLatestPrice();
         assertTrue(price > 0, "Invalid price");
         assertTrue(conf > 0, "Invalid confidence");
         assertTrue(expo < 0, "Invalid exponent");
     }
-    
+
     function testUpdatePrice() public {
         bytes[] memory updateData = new bytes[](0);
         uint256 fee = 1;
-        vm.mockCall(
-            pythContract,
-            abi.encodeWithSelector(IPyth.getUpdateFee.selector, updateData),
-            abi.encode(fee)
-        );
-        vm.mockCall(
-            pythContract,
-            abi.encodeWithSelector(IPyth.updatePriceFeeds.selector, updateData),
-            ""
-        );
+        vm.mockCall(pythContract, abi.encodeWithSelector(IPyth.getUpdateFee.selector, updateData), abi.encode(fee));
+        vm.mockCall(pythContract, abi.encodeWithSelector(IPyth.updatePriceFeeds.selector, updateData), "");
         pythOracle.updatePrice{value: fee}(updateData);
         assertTrue(true, "Update price successful");
     }
-
-   
 }

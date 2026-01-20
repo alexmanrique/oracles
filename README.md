@@ -1,6 +1,6 @@
 ## Chainlink and Pyth Oracles (Foundry)
 
-Example project with contracts that consume Chainlink and Pyth oracles, including basic versions and versions with safety validations.
+Example project with contracts that consume Chainlink and Pyth oracles, with both basic and safety-validated versions.
 
 ## Contracts
 
@@ -12,6 +12,9 @@ Example project with contracts that consume Chainlink and Pyth oracles, includin
 ## Tests
 
 - `test/ChainlinkOracleCheckTest.t.sol`: tests for `SecureChainlinkOracle` with fallback and staleness scenarios.
+- `test/ChainOracleTest.t.sol`: tests for the basic Chainlink oracle wrapper.
+- `test/PythOracleTest.t.sol`: tests for the basic Pyth oracle wrapper.
+- `test/PythOracleChecksTest.t.sol`: tests for the Pyth oracle with validation checks.
 
 ## Structure
 
@@ -23,6 +26,9 @@ src/
   PythOracleChecks.sol
 test/
   ChainlinkOracleCheckTest.t.sol
+  ChainOracleTest.t.sol
+  PythOracleTest.t.sol
+  PythOracleChecksTest.t.sol
 ```
 
 ## Usage
