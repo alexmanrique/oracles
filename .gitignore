@@ -12,3 +12,7 @@ docs/
 
 # Dotenv file
 .env
+
+# Node dependencies
+node_modules/
+.npm-cache/

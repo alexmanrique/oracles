@@ -1,0 +1,19 @@
+{
+  "name": "oracles",
+  "version": "1.0.0",
+  "description": "Example project with contracts that consume Chainlink and Pyth oracles, with both basic and safety-validated versions.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pythnetwork/pyth-sdk-solidity": "^4.2.0"
+  }
+}
